@@ -164,6 +164,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             //if (user == null) {
             //    nav_favorite.visibility = View.GONE
             //}
+        } else {
+            val menu = navigationView.menu
+            val favItem = menu.findItem(R.id.nav_favorite)
+            favItem.isVisible = true
         }
 
         // Firebase
