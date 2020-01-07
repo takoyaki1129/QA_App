@@ -121,12 +121,12 @@ class QuestionDetailActivity : AppCompatActivity() {
         else {
             if (mFavorite != 1) {
                 buttonFavorite.text = "お気に入りに登録する"
-                buttonFavorite.setOnclicllistner {
+                buttonFavorite.setOnClickListener {
                     mFavorite = 1
                 }
             } else {
                 buttonFavorite.text = "お気に入りから削除する"
-                buttonFavorite.setOnclicllistner {
+                buttonFavorite.setOnClickListener {
                     mFavorite = 0
                 }
             }
@@ -135,10 +135,10 @@ class QuestionDetailActivity : AppCompatActivity() {
             val intent = Intent(applicationContext, QuestionsListAdapter::class.java)
             intent.putExtra("favorite", mFavorite)
 
-            //【追記】質問のリストをクリアしてから再度Adapterにセットし、AdapterをListViewにセットし直す
-            mQuestionArrayList.clear()
-            mAdapter.setQuestionArrayList(mQuestionArrayList)
-            mListView.adapter = mAdapter
+            //【追記】質問のリストをクリアしてから再度Adapterにセットし、AdapterをListViewにセットし直す←MainActivity表示時に更新されるから要らない？
+            //mQuestionArrayList.clear()
+            //mAdapter.setQuestionArrayList(mQuestionArrayList)
+            //mListView.adapter = mAdapter
 
             //【追記】選択したジャンルにリスナーを登録する
             if (mFavoriteRef != null) {
@@ -154,7 +154,7 @@ class QuestionDetailActivity : AppCompatActivity() {
             //【追記】この質問に対するユーザーのお気に入り値を保存する
             val sp = PreferenceManager.getDefaultSharedPreferences(this)
             val editor = sp.edit()
-            editor.putString(NameKEY, mQuestion.mFavorite)
+            editor.putInt(FavoriteKEY, mQuestion.favorite)
             editor.commit()
 
         }

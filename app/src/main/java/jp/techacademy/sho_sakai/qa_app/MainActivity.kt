@@ -156,7 +156,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //【追記】ログインしていない場合、お気に入りボタンを非表示にする
         val user = FirebaseAuth.getInstance().currentUser
         if (user == null) {
-            nav_favorite.visibility = View.GONE
+            val menu = navigationView.menu
+            val favItem = menu.findItem(R.id.nav_favorite)
+            favItem.isVisible = false
+            //【旧】visibilityがエラーになり、機能せず
+            //val user = FirebaseAuth.getInstance().currentUser
+            //if (user == null) {
+            //    nav_favorite.visibility = View.GONE
+            //}
         }
 
         // Firebase
