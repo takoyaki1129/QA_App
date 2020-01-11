@@ -223,7 +223,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //【追記】mFavoriteに1を設定する
         } else if (id == R.id.nav_favorite) {
             mToolbar.title = "お気に入り"
-            mFavorite = 1
+            mFavorite = 5
         }
 
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
