@@ -16,8 +16,6 @@ import java.util.ArrayList
 class QuestionsListAdapter(context: Context) : BaseAdapter() {
     private var mLayoutInflater: LayoutInflater
     private var mQuestionArrayList = ArrayList<Question>()
-    //【追記】
-    private var mFavorite = 0
 
     init {
         mLayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -58,16 +56,7 @@ class QuestionsListAdapter(context: Context) : BaseAdapter() {
             val imageView = convertView.findViewById<View>(R.id.imageView) as ImageView
             imageView.setImageBitmap(image)
         }
-        // 【追記】渡ってきたお気に入りor notを保持する
-        val intent = Intent()
-        val extras = intent.extras
-        mFavorite = extras.getInt("favorite")
 
-        // 【追記】mFavorite = 0の場合、お気に入りの星を非表示にする
-        val favoriteStar = convertView.findViewById<View>(R.id.favorite) as ImageView
-        if (mFavorite == 0) {
-            favoriteStar.visibility = View.GONE
-        }
 
         return convertView
     }

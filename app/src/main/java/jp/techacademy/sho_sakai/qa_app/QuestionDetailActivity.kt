@@ -23,11 +23,9 @@ import java.util.HashMap
 
 class QuestionDetailActivity : AppCompatActivity() {
 
-
-    //【追記】Favorite用の値定義
-    private var mFavorite = 0
-    //【追記】Favorite用の値定義
-    private var mFavoriteRef: DatabaseReference? = null
+    //【追記】Favorite用の値とRef定義
+    var favorite = 0
+    private val favoriteRef: DatabaseReference? = null
 
     private lateinit var mQuestion: Question
     private lateinit var mAdapter: QuestionDetailListAdapter
@@ -80,6 +78,8 @@ class QuestionDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question_detail)
 
+        var mDataBaseReference = FirebaseDatabase.getInstance().reference
+
         // 渡ってきたQuestionのオブジェクトを保持する
         val extras = intent.extras
         mQuestion = extras.get("question") as Question
@@ -119,43 +119,22 @@ class QuestionDetailActivity : AppCompatActivity() {
         }
         //【追記】ログインしている場合、ボタン押下でお気に入りに登録する
         else {
-            if (mFavorite != 1) {
-                buttonFavorite.text = "お気に入りに登録する"
-                buttonFavorite.setOnClickListener {
-                    mFavorite = 1
-                }
-            } else {
-                buttonFavorite.text = "お気に入りから削除する"
-                buttonFavorite.setOnClickListener {
-                    mFavorite = 0
+            val favoriteRef = mDataBaseReference.child(FavoriteKEY).child(user!!.uid)
+            buttonFavorite.setOnClickListener { view : View ->
+                if (favorite != 1) {
+                    buttonFavorite.text = "お気に入りに追加する"
+                    favorite = 1
+
+                } else {
+                    buttonFavorite.text = "お気に入りから削除する"
+                    favorite = 0
                 }
             }
+            val data = HashMap<String, Int>()
 
-            //【追記】お気に入りor notを質問一覧画面に渡す
-            val intent = Intent(applicationContext, QuestionsListAdapter::class.java)
-            intent.putExtra("favorite", mFavorite)
+            data["favorite"] = favorite
 
-            //【追記】質問のリストをクリアしてから再度Adapterにセットし、AdapterをListViewにセットし直す←MainActivity表示時に更新されるから要らない？
-            //mQuestionArrayList.clear()
-            //mAdapter.setQuestionArrayList(mQuestionArrayList)
-            //mListView.adapter = mAdapter
-
-            //【追記】選択したジャンルにリスナーを登録する
-            if (mFavoriteRef != null) {
-                mFavoriteRef!!.removeEventListener(mEventListener)
-            }
-            mFavoriteRef = mDatabaseReference.child(ContentsPATH).child(mFavorite.toString())
-            mFavoriteRef!!.addChildEventListener(mEventListener)
-
-            //【予備】各質問へのfavoriteの設定方法試行錯誤中/intent.putExtra("favorite", mFavorite)
-            // val intent = Intent(applicationContext, QuestionSendActivity::class.java)
-            //startActivity(intent)
-
-            //【追記】この質問に対するユーザーのお気に入り値を保存する
-            val sp = PreferenceManager.getDefaultSharedPreferences(this)
-            val editor = sp.edit()
-            editor.putInt(FavoriteKEY, mQuestion.favorite)
-            editor.commit()
+            favoriteRef!!.setValue(data, this)
 
         }
 

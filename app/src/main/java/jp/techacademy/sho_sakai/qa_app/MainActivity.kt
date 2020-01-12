@@ -180,7 +180,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mAdapter.notifyDataSetChanged()
 
         mListView.setOnItemClickListener { parent, view, position, id ->
-            // Questionのインスタンスを渡して質問詳細画面を起動する
+            // 【これがおかしい？】Questionのインスタンスを渡して質問詳細画面を起動する
             val intent = Intent(applicationContext, QuestionDetailActivity::class.java)
             intent.putExtra("question", mQuestionArrayList[position])
             startActivity(intent)
@@ -245,7 +245,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (mFavoriteRef != null) {
             mFavoriteRef!!.removeEventListener(mEventListener)
         }
-        mFavoriteRef = mDatabaseReference.child(ContentsPATH).child(mFavorite.toString())
+        mFavoriteRef = mDatabaseReference.child(FavoriteKEY).child(mFavorite.toString())
         mFavoriteRef!!.addChildEventListener(mEventListener)
 
         return true
