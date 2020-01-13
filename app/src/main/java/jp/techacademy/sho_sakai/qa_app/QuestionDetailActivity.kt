@@ -108,6 +108,7 @@ class QuestionDetailActivity : AppCompatActivity() {
             }
         }
 
+
         //【追記】お気に入りボタンを取得
         val buttonFavorite = findViewById<Button>(R.id.buttonFavorite)
         //【追記】ログイン済みのユーザーを取得する
@@ -119,7 +120,7 @@ class QuestionDetailActivity : AppCompatActivity() {
         }
         //【追記】ログインしている場合、ボタン押下でお気に入りに登録する
         else {
-            val favoriteRef = mDataBaseReference.child(FavoriteKEY).child(user!!.uid)
+            val favoriteRef = mDataBaseReference.child(FavoriteKEY).child(user!!.uid)//.child(mQuestion.questionUid)
             buttonFavorite.setOnClickListener { view : View ->
                 if (favorite != 1) {
                     buttonFavorite.text = "お気に入りに追加する"
@@ -134,7 +135,7 @@ class QuestionDetailActivity : AppCompatActivity() {
 
             data["favorite"] = favorite
 
-            favoriteRef!!.setValue(data, this)
+            favoriteRef.setValue(data, this)
 
         }
 
