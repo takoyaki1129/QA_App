@@ -120,7 +120,6 @@ class QuestionDetailActivity : AppCompatActivity() {
         }
         //【追記】ログインしている場合、ボタン押下でお気に入りに登録する
         else {
-            val favoriteRef = mDataBaseReference.child(FavoriteKEY).child(user!!.uid)//.child(mQuestion.questionUid)
             buttonFavorite.setOnClickListener { view : View ->
                 if (favorite != 1) {
                     buttonFavorite.text = "お気に入りに追加する"
@@ -131,9 +130,12 @@ class QuestionDetailActivity : AppCompatActivity() {
                     favorite = 0
                 }
             }
+            val favoriteRef = mDataBaseReference.child(FavoriteKEY).child(favorite.toString())
+
             val data = HashMap<String, String>()
 
-            data["favorite"] = favorite.toString()
+            data["uid"] = FirebaseAuth.getInstance().currentUser!!.uid
+            data["question"] = mQuestion.questionUid
 
             favoriteRef.setValue(data, this)
 
