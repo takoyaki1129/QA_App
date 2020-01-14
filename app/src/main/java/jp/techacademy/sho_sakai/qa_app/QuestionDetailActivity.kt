@@ -131,9 +131,9 @@ class QuestionDetailActivity : AppCompatActivity() {
                     favorite = 0
                 }
             }
-            val data = HashMap<String, Int>()
+            val data = HashMap<String, String>()
 
-            data["favorite"] = favorite
+            data["favorite"] = favorite.toString()
 
             favoriteRef.setValue(data, this)
 

@@ -220,7 +220,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } else if (id == R.id.nav_compter) {
             mToolbar.title = "コンピューター"
             mGenre = 4
-        //【追記】mFavoriteに1を設定する
+            //【追記】mFavoriteに1を設定する
         } else if (id == R.id.nav_favorite) {
             mToolbar.title = "お気に入り"
             mFavorite = 5
