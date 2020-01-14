@@ -78,7 +78,7 @@ class QuestionDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question_detail)
 
-        var mDataBaseReference = FirebaseDatabase.getInstance().reference
+        mDatabaseReference = FirebaseDatabase.getInstance().reference
 
         // 渡ってきたQuestionのオブジェクトを保持する
         val extras = intent.extras
@@ -130,14 +130,13 @@ class QuestionDetailActivity : AppCompatActivity() {
                     favorite = 0
                 }
             }
-            val favoriteRef = mDataBaseReference.child(FavoriteKEY).child(favorite.toString())
+            val favoriteRef = mDatabaseReference.child(FavoriteKEY).child(user.uid)
 
             val data = HashMap<String, String>()
 
-            data["uid"] = FirebaseAuth.getInstance().currentUser!!.uid
             data["question"] = mQuestion.questionUid
 
-            favoriteRef.setValue(data, this)
+            favoriteRef.setValue(data)
 
         }
 
